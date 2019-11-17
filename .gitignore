@@ -44,3 +44,4 @@ testem.log
 Thumbs.db
 deploy.sh
 deploy-staging.sh
+mailchain-web-darwin-x64
