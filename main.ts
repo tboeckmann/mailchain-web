@@ -11,7 +11,7 @@ function createWindow() {
       preload: path.join(__dirname, "preload.js"),
     },
     width: 800,
-    icon: `file://${__dirname}/distmailchain-web/mailchain-web/assets/logo.png`
+    icon: `file://${__dirname}/dist/mailchain-web/mailchain-web/assets/logo.png`
   });
 
   // and load the index.html of the app.
