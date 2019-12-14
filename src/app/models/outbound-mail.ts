@@ -9,5 +9,8 @@ export class OutboundMail {
     "public-key": "",
     "subject": ""
   };
+  public envelope: string = "0x01";
+  public "encryption-method-name": string = "aes256cbc";
+  public "content-type": string = "text/plain; charset=\"UTF-8\"";
 }
 

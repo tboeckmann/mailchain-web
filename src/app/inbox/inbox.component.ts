@@ -138,8 +138,8 @@ export class InboxComponent implements OnInit {
    * Changes the server settings in the client from form data.
    * @param form is the settings form submitted from the view
    */
-  serverSettingsFormSubmit(){ 
-       
+  public serverSettingsFormSubmit(){ 
+
     var webProtocol = this.serverSettings["webProtocol"]
     var host = this.serverSettings["host"]
     var port = this.serverSettings["port"]
@@ -252,12 +252,14 @@ export class InboxComponent implements OnInit {
       protocols = res["protocols"]
       if (protocols.length > 0) {
         protocols.forEach(protocol => {
-          protocol["networks"].forEach(network => {
-            this.networks.push({
-              label: network,
-              value: network,
-            })
-          });
+          if (protocol["name"] == "ethereum" ) {
+            protocol["networks"].forEach(network => {
+              this.networks.push({
+                label: network["name"],
+                value: network["name"],
+              })
+            });
+          }
         });
       }
     });
@@ -342,9 +344,9 @@ export class InboxComponent implements OnInit {
     } catch (error) {
       this.getServerSettings()
      // @TODO add error handling for failure to reach server
-     console.warn("error: " + error);
-     console.warn("error: it doesn't look like your application is running. Please check your settings.");
-     
+      console.warn("error: " + error);
+      console.warn("error: it doesn't look like your application is running. Please check your settings.");
+
     }
     await this.checkServerSettingsInQueryParams()
 
@@ -379,7 +381,7 @@ export class InboxComponent implements OnInit {
         --fetchCount // decrement fetchCount
         
         if (fetchCount == 0 ) { // all get requests should be complete
-           self.setFetchingMessagesState(false)
+          self.setFetchingMessagesState(false)
         }
       })
       

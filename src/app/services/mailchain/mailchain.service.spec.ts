@@ -230,9 +230,19 @@ describe('MailchainService', () => {
 
     
     it('should return valid outputs when given a valid Mail object', () => {
-      let response = mailchainService.generateMail(mailObject)
+      let response = mailchainService.generateMail(mailObject,"plaintext")
 
       expect(response).toEqual(outboundMailObject)
+    })
+    it('should return valid content type for plaintext', () => {
+      let response = mailchainService.generateMail(mailObject,"plaintext")
+
+      expect(response["content-type"]).toEqual('text/plain; charset=\"UTF-8\"')
+    })
+    it('should return valid content type for html', () => {
+      let response = mailchainService.generateMail(mailObject,"html")
+
+      expect(response["content-type"]).toEqual('text/html; charset=\"UTF-8\"')
     })
   })
 
@@ -301,6 +311,11 @@ describe('MailchainService', () => {
       expect(mailchainService.filterMessages(messages, {status: "ok", readState: false, headersTo: address1})).toEqual([ messages[2] ])
       expect(mailchainService.filterMessages(messages, {status: "error", readState: true, headersTo: address2})).toEqual([ messages[1] ])
       expect(mailchainService.filterMessages(messages, {status: "error", readState: false, headersTo: address2})).toEqual([ messages[3] ])
+    })
+    it('should handle messages returned as null', () => {      
+      expect(mailchainService.filterMessages(null, { status: "ok" })).toEqual([])
+      expect(mailchainService.filterMessages(null, { readState: true })).toEqual([])
+      expect(mailchainService.filterMessages(null, { headersTo: address1 })).toEqual([])
     })
   })
 
@@ -451,6 +466,25 @@ describe('MailchainService', () => {
       let exp = "0xg5ab4ce3605cd590db609b6b5c8901fdb2ef7fe6"
       expect(mailchainService.validateEthAddress(exp)).toBe(false)
     })
+  });
+
+  describe('getContentTypeForView', () => {
+    it('should return html for contentType: text/html', () => {
+      expect(mailchainService.getContentTypeForView("text/html; charset=\"UTF-8\"")).toBe("html")
+    });
+    it('should return html for contentType: text/html', () => {
+      expect(mailchainService.getContentTypeForView("text/html; charset='UTF-8'")).toBe("html")
+    });
+    it('should return plaintext for contentType: text/plain', () => {
+      expect(mailchainService.getContentTypeForView("text/plain; charset=\"UTF-8\"")).toBe("plaintext")
+    });
+    it('should return plaintext for contentType: text/plain', () => {
+      expect(mailchainService.getContentTypeForView("text/plain; charset='UTF-8'")).toBe("plaintext")
+    });
+    it('should return plaintext for unknown contentType', () => {
+      expect(mailchainService.getContentTypeForView("text/crazy; charset='UTF-?'")).toBe("plaintext")
+    });
+
   });
 
 

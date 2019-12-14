@@ -7,7 +7,7 @@ import { OutboundMail } from 'src/app/models/outbound-mail';
 export class MailchainTestService {
 
   constructor() { }
-
+  
   public outboundMailObject(): OutboundMail {
     
     let outboundMailObject = new OutboundMail
@@ -22,6 +22,18 @@ export class MailchainTestService {
       "subject": "Test message",
     }
 
+    return outboundMailObject
+  }
+  
+  public outboundMailObjectPlainText(): OutboundMail {
+    let outboundMailObject = this.outboundMailObject()
+    outboundMailObject["content-type"] = "text/plain; charset=\"UTF-8\""
+    return outboundMailObject
+  }
+
+  public outboundMailObjectHtml(): OutboundMail {
+    let outboundMailObject = this.outboundMailObject()
+    outboundMailObject["content-type"] = "text/html; charset=\"UTF-8\""
     return outboundMailObject
   }
 
@@ -98,7 +110,8 @@ export class MailchainTestService {
         "date": "2019-06-07T14:53:36Z",
         "from": "\u003c0x0123456789012345678901234567890123456789@testnet.ethereum\u003e",
         "to": "\u003c0x0123456789abcdef0123456789abcdef01234567@testnet.ethereum\u003e",
-        "message-id": "0020c"
+        "message-id": "0020c",
+        "content-type": "text/plain; charset=\"UTF-8\""
       },
       "body": "A body",
       "subject": "Mailchain Test!",
@@ -244,10 +257,8 @@ export class MailchainTestService {
 
   public protocolsServerResponse(): any {
     return {
-      "protocols": [{
-          "name": "ethereum",
-          "networks": ["goerli", "kovan", "mainnet", "rinkeby", "ropsten"]
-        }]
+      "protocols":
+        [{ "name": "ethereum", "networks": [{ "name": "goerli", "id": "" }, { "name": "kovan", "id": "" }, { "name": "mainnet", "id": "" }, { "name": "rinkeby", "id": "" }, { "name": "ropsten", "id": "" }] }, { "name": "substrate", "networks": [{ "name": "edgeware-testnet", "id": "42" }] }]
     }
   }
 
@@ -263,7 +274,8 @@ export class MailchainTestService {
       { label: "kovan", value: "kovan"}, 
       { label: "mainnet", value: "mainnet"}, 
       { label: "rinkeby", value: "rinkeby"}, 
-      { label: "ropsten", value: "ropsten"}
+      { label: "ropsten", value: "ropsten"},
+      // { label: "edgeware-testnet", value: "edgeware-testnet"}
     ]
   }
 
