@@ -132,5 +132,14 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
+## Electron Info
+
+### Useful commands
+
+Run electron locally: `npm run electron-tsc`
+Build Mac Application: `electron-packager . --platform=darwin --overwrite`
+
+
+
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmailchain%2Fmailchain-web.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmailchain%2Fmailchain-web?ref=badge_large)
